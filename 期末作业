@@ -1,0 +1,53 @@
+ coding:utf-8 -*-
+import urllib
+import urllib2
+import re
+import sys
+
+
+
+
+user_agent = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'
+headers = { 'User-Agent' : user_agent }
+
+
+
+
+for i in range (1,61):
+    url = 'https://www.shixiseng.com/interns?k=linux&p=1'+str(i)
+    
+    try:
+        request = urllib2.Request(url, headers=headers)
+        response = urllib2.urlopen(request)
+        html = response.read().decode('utf-8')
+        
+    except urllib2.URLError, e:
+        if hasattr(e,"code"):
+            print e.code
+        if hasattr(e,"reason"):
+            print e.reason
+    a = 0
+    b = 0
+
+    content_pattern = re.compile('<div class="names cutom_font">.*?<a.*?>(.*?)</a>', re.S)
+    content_list = re.findall(content_pattern, html)
+    
+        
+    content_pattern1 = re.compile('<div class="xz">.*?<a.*?>(.*?)</a>', re.S)
+    content_list1 = re.findall(content_pattern1, html)
+     
+
+    content_pattern2 = re.compile('<span class="line">.*?<a.*?>(.*?)</a>', re.S)
+    content_list2 = re.findall(content_pattern2, html)
+
+    for item in content_list:
+        a = a + 1
+        print a
+        print '\n'
+        print item.strip()     
+        print content_list1[b]
+        print content_list2[b]
+        input = raw_input()
+        if input == "Q":       
+            break
+        print "-----------------------------next:----------------------------\n"
